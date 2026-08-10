@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Executivo - Segurança Viária RMBH (2024-2025)</title>
+    <!-- Chart.js & FontAwesome CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #1e293b;
+            --accent-blue: #2563eb;
+            --accent-sky: #0284c7;
+            --accent-warning: #d97706;
+            --accent-danger: #dc2626;
+            --accent-success: #16a34a;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 260px;
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+        }
+
+        .sidebar .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 32px;
+            padding: 0 8px;
+            color: #f1f5f9;
+        }
+
+        .sidebar .brand i {
+            font-size: 1.5rem;
+            color: var(--accent-sky);
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.05);
+            color: #f8fafc;
+        }
+
+        .nav-btn.active {
+            background: var(--accent-blue);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-title {
+            margin-bottom: 24px;
+        }
+
+        .header-title h1 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+
+        /* KPI Cards Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .kpi-data h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .kpi-data .value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        .kpi-data .sub {
+            font-size: 0.8rem;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .kpi-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        /* Color classes */
+        .bg-blue { background: #eff6ff; color: var(--accent-blue); }
+        .bg-warning { background: #fffbeb; color: var(--accent-warning); }
+        .bg-danger { background: #fef2f2; color: var(--accent-danger); }
+        .bg-sky { background: #f0f9ff; color: var(--accent-sky); }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .chart-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .chart-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 320px;
+            width: 100%;
+        }
+
+        /* Hypotheses & Insights Cards */
+        .hypo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .hypo-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid var(--accent-blue);
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .hypo-card.refutada { border-left-color: var(--accent-danger); }
+        .hypo-card.confirmada { border-left-color: var(--accent-success); }
+        .hypo-card.parcial { border-left-color: var(--accent-warning); }
+
+        .hypo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .hypo-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-refutada { background: #fef2f2; color: var(--accent-danger); }
+        .badge-confirmada { background: #f0fdf4; color: var(--accent-success); }
+        .badge-parcial { background: #fffbeb; color: var(--accent-warning); }
+
+        .hypo-body p {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .hypo-body strong {
+            color: var(--primary-dark);
+        }
+
+        /* Recommendations Section */
+        .recom-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .recom-box {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .recom-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--bg-light);
+        }
+
+        .recom-box.fiscalizacao .recom-header { color: var(--accent-blue); }
+        .recom-box.concessionaria .recom-header { color: var(--accent-warning); }
+
+        .recom-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .recom-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .recom-item i {
+            margin-top: 3px;
+            font-size: 1.1rem;
+        }
+
+        .recom-item div h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+        }
+
+        .recom-item div p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        @media (max-width: 1024px) {
+            .charts-grid, .recom-section {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="brand">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Segurança Viária RMBH</span>
+        </div>
+        <ul class="nav-tabs">
+            <li>
+                <button class="nav-btn active" onclick="openTab(event, 'visao-geral')">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Visão Geral</span>
+                </button>
+            </li>
+            <li>
+                <button class="nav-btn" onclick="openTab(event, 'visao-detalhada')">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>Visão Detalhada</span>
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- DASHBOARD 1: VISÃO GERAL -->
+        <div id="visao-geral" class="tab-content active">
+            <div class="header-title">
+                <h1>Visão Geral: Diagnóstico de Sinistros e Pluviometria</h1>
+                <p>Consolidado estatístico das rodovias BR-040, BR-262 e BR-381 na Região Metropolitana de BH (2024–2025)</p>
+            </div>
+
+            <!-- KPIs -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-data">
+                        <h3>Total de Sinistros</h3>
+                        <div class="value">4.024</div>
+                        <div class="sub text-muted">Com vítimas na RMBH</div>
+                    </div>
+                    <div class="kpi-icon bg-blue">
+                        <i class="fa-solid fa-car-burst"></i>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-data">
+                        <h3>Sinistros Graves</h3>
+                        <div class="value">1.135</div>
+                        <div class="sub" style="color:var(--accent-warning)">28,2% do total</div>
+                    </div>
+                    <div class="kpi-icon bg-warning">
+                        <i class="fa-solid fa-user-injured"></i>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-data">
+                        <h3>Vítimas Fatais</h3>
+                        <div class="value">199</div>
+                        <div class="sub" style="color:var(--accent-danger)">4,9% de fatalidade</div>
+                    </div>
+                    <div class="kpi-icon bg-danger">
+                        <i class="fa-solid fa-skull-crossbones"></i>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-data">
+                        <h3>Concentração BR-381</h3>
+                        <div class="value">58,6%</div>
+                        <div class="sub" style="color:var(--accent-sky)">2.357 acidentes</div>
+                    </div>
+                    <div class="kpi-icon bg-sky">
+                        <i class="fa-solid fa-road"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualizações Principais -->
+            <div class="charts-grid">
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <span class="chart-title">Evolução Temporal Mensal: Sinistros Totais vs. Precipitação Pluviométrica (mm)</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartEvolucao"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <span class="chart-title">Distribuição de Sinistros por Rodovia</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartRodovias"></canvas>
+                    </div>
+                </div>
+
+                <!-- Gráfico Corrigido e Melhorado -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <span class="chart-title">Média Mensal de Acidentes: Estação Seca vs. Chuvosa</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartEstacao"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- DASHBOARD 2: VISÃO DETALHADA -->
+        <div id="visao-detalhada" class="tab-content">
+            <div class="header-title">
+                <h1>Visão Detalhada: Teste de Hipóteses & Plano de Ação Estratégico</h1>
+                <p>Resultados analíticos avançados e recomendações diferenciadas para Órgãos de Fiscalização e Concessionárias</p>
+            </div>
+
+            <!-- Hipóteses Avaliadas -->
+            <h2 style="font-size:1.2rem; font-weight:700; color:var(--primary-dark); margin-bottom:16px;">
+                <i class="fa-solid fa-vial-circle-check" style="margin-right:8px; color:var(--accent-blue);"></i>
+                Apanhado Geral dos Achados e Hipóteses
+            </h2>
+
+            <div class="hypo-grid">
+                <div class="hypo-card refutada">
+                    <div class="hypo-header">
+                        <span class="hypo-title">H1: Chuva Aumenta Volume Total</span>
+                        <span class="badge badge-refutada">Refutada</span>
+                    </div>
+                    <div class="hypo-body">
+                        <p><strong>Dados:</strong> Correlação r = -0,138 (p-valor = 0,520). Média chuvosa (165,2) vs Seca (170,1).</p>
+                        <p><strong>Insight:</strong> O volume total de acidentes na RMBH é independente da chuva acumulada no mês, dependendo de fluxo e feriados.</p>
+                    </div>
+                </div>
+
+                <div class="hypo-card refutada">
+                    <div class="hypo-header">
+                        <span class="hypo-title">H2: Compensação pela Velocidade</span>
+                        <span class="badge badge-refutada">Refutada</span>
+                    </div>
+                    <div class="hypo-body">
+                        <p><strong>Dados:</strong> Taxa de graves constante em ~28% (r = +0,039) e fatalidades em ~5% o ano todo.</p>
+                        <p><strong>Insight:</strong> A severidade dos acidentes depende de falhas comportamentais e infraestrutura fixa, não do clima.</p>
+                    </div>
+                </div>
+
+                <div class="hypo-card confirmada">
+                    <div class="hypo-header">
+                        <span class="hypo-title">H3: Sensibilidade por Rodovia</span>
+                        <span class="badge badge-confirmada">Confirmada</span>
+                    </div>
+                    <div class="hypo-body">
+                        <p><strong>Dados:</strong> BR-040 tem r = -0,544 (picos na seca). BR-381 responde por 58,6% dos acidentes totais.</p>
+                        <p><strong>Insight:</strong> BR-040 requer atenção em dias secos de alta velocidade; BR-381 é gargalo crítico contínuo.</p>
+                    </div>
+                </div>
+
+                <div class="hypo-card parcial">
+                    <div class="hypo-header">
+                        <span class="hypo-title">H4: Efeito Primeiras Chuvas</span>
+                        <span class="badge badge-parcial">Parcialmente Confirmada</span>
+                    </div>
+                    <div class="hypo-body">
+                        <p><strong>Dados:</strong> Out/Nov registram 51 graves/mês vs 45 em Dez/Jan (+13,3% de graves com menos chuva).</p>
+                        <p><strong>Insight:</strong> A transição seca-chuva (pista lavada por óleo/sujeira) é o período de maior risco operacional.</p>
+                    </div>
+                </div>
+
+                <div class="hypo-card confirmada">
+                    <div class="hypo-header">
+                        <span class="hypo-title">H5: Estabilidade do Padrão Temporal</span>
+                        <span class="badge badge-confirmada">Confirmada</span>
+                    </div>
+                    <div class="hypo-body">
+                        <p><strong>Dados:</strong> Padrões de concentração na BR-381 e correlação neutra repetiram-se em 2024 e 2025.</p>
+                        <p><strong>Insight:</strong> O comportamento de acidentabilidade é um problema estrutural e altamente previsível.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recomendações Diferenciadas -->
+            <h2 style="font-size:1.2rem; font-weight:700; color:var(--primary-dark); margin-bottom:16px;">
+                <i class="fa-solid fa-list-check" style="margin-right:8px; color:var(--accent-sky);"></i>
+                Recomendações Estratégicas para Gestores (Etapa 6)
+            </h2>
+
+            <div class="recom-section">
+                <!-- Órgãos de Fiscalização e Policiamento -->
+                <div class="recom-box fiscalizacao">
+                    <div class="recom-header">
+                        <i class="fa-solid fa-user-shield"></i>
+                        <span>Órgãos de Fiscalização e Policiamento</span>
+                    </div>
+                    <ul class="recom-list">
+                        <li class="recom-item">
+                            <i class="fa-solid fa-gauge-high" style="color:var(--accent-blue)"></i>
+                            <div>
+                                <h4>Fiscalização Dinâmica de Velocidade na BR-040 nos Meses Secos</h4>
+                                <p>Intensificar o uso de radares móveis e patrulhamento preventivo entre Maio e Setembro na BR-040, combatendo o excesso de velocidade propiciado pela pista seca.</p>
+                            </div>
+                        </li>
+                        <li class="recom-item">
+                            <i class="fa-solid fa-cloud-sun-rain" style="color:var(--accent-blue)"></i>
+                            <div>
+                                <h4>Operação "Primeira Chuva" (Outubro e Novembro)</h4>
+                                <p>Deslocar o efetivo ostensivo para pontos críticos nas semanas iniciais de chuva para coibir ultrapassagens indevidas no período de menor aderência do piso.</p>
+                            </div>
+                        </li>
+                        <!-- Sugestão Reformulada e Otimizada para a BR-381 -->
+                        <li class="recom-item">
+                            <i class="fa-solid fa-motorcycle" style="color:var(--accent-blue)"></i>
+                            <div>
+                                <h4>Fiscalização de Tráfego Pendular e Proteção de Motociclistas na BR-381</h4>
+                                <p>Implementar blitze focadas em horários de pico diários (deslocamento casa-trabalho intermunicipal) com foco em ultrapassagens arriscadas no corredor de motos, velocidade compatível em trechos urbanizados e checagem de equipamentos de segurança de motociclistas.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Concessionárias das Rodovias -->
+                <div class="recom-box concessionaria">
+                    <div class="recom-header">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        <span>Concessionárias de Infraestrutura Rodoviária</span>
+                    </div>
+                    <ul class="recom-list">
+                        <li class="recom-item">
+                            <i class="fa-solid fa-spray-can" style="color:var(--accent-warning)"></i>
+                            <div>
+                                <h4>Microfresagem e Manutenção de Aderência do Pavimento</h4>
+                                <p>Priorizar obras de revitalização e microfresagem do asfalto na BR-381 e BR-040 antes de Outubro para garantir escoamento de água e coeficiente de atrito adequado.</p>
+                            </div>
+                        </li>
+                        <li class="recom-item">
+                            <i class="fa-solid fa-tower-broadcast" style="color:var(--accent-warning)"></i>
+                            <div>
+                                <h4>Alertas em PMVs para Tráfego de Motos e Chuvas Primárias</h4>
+                                <p>Emitir alertas ativos sobre risco de aquaplanagem e conscientização sobre compartilhamento seguro de faixa com motociclistas nos trechos de maior densidade pendular da BR-381.</p>
+                            </div>
+                        </li>
+                        <li class="recom-item">
+                            <i class="fa-solid fa-road-barrier" style="color:var(--accent-warning)"></i>
+                            <div>
+                                <h4>Adequação de Infraestrutura Urbana e Separação de Fluxos na BR-381</h4>
+                                <p>Instalar sinalização horizontal reforçada, defensas adequadas para motociclistas e promover melhorias na drenagem nos gargalos onde há afunilamento do tráfego diário.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Chart rendering Script -->
+    <script>
+        function openTab(evt, tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Data for Charts
+        const labelsMonths = ['Jan/24', 'Fev/24', 'Mar/24', 'Abr/24', 'Mai/24', 'Jun/24', 'Jul/24', 'Ago/24', 'Set/24', 'Out/24', 'Nov/24', 'Dez/24',
+                              'Jan/25', 'Fev/25', 'Mar/25', 'Abr/25', 'Mai/25', 'Jun/25', 'Jul/25', 'Ago/25', 'Set/25', 'Out/25', 'Nov/25', 'Dez/25'];
+        
+        const dataSinistros = [136, 146, 177, 154, 182, 179, 183, 172, 166, 176, 182, 198,
+                               136, 140, 154, 158, 164, 166, 167, 184, 179, 177, 184, 182];
+        
+        const dataChuva = [289.4, 192.6, 185.2, 32.4, 2.8, 0.0, 0.0, 0.0, 1.2, 142.8, 268.4, 315.6,
+                           312.0, 165.4, 198.2, 45.0, 8.4, 0.0, 2.1, 0.0, 5.6, 128.0, 285.0, 340.2];
+
+        // Chart 1: Evolução
+        const ctxEvolucao = document.getElementById('chartEvolucao').getContext('2d');
+        new Chart(ctxEvolucao, {
+            type: 'bar',
+            data: {
+                labels: labelsMonths,
+                datasets: [
+                    {
+                        label: 'Precipitação Pluviométrica (mm)',
+                        data: dataChuva,
+                        backgroundColor: 'rgba(56, 189, 248, 0.35)',
+                        borderColor: '#0284c7',
+                        borderWidth: 1,
+                        yAxisID: 'yChuva'
+                    },
+                    {
+                        label: 'Sinistros Totais (Ocorrências)',
+                        data: dataSinistros,
+                        type: 'line',
+                        borderColor: '#2563eb',
+                        backgroundColor: '#2563eb',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        yAxisID: 'ySinistros'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    ySinistros: {
+                        type: 'linear',
+                        position: 'left',
+                        title: { display: true, text: 'Total de Sinistros' },
+                        min: 100
+                    },
+                    yChuva: {
+                        type: 'linear',
+                        position: 'right',
+                        title: { display: true, text: 'Precipitação (mm)' },
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Rodovias
+        const ctxRodovias = document.getElementById('chartRodovias').getContext('2d');
+        new Chart(ctxRodovias, {
+            type: 'doughnut',
+            data: {
+                labels: ['BR-381 (58,6%)', 'BR-040 (30,5%)', 'BR-262 (10,8%)'],
+                datasets: [{
+                    data: [2357, 1227, 435],
+                    backgroundColor: ['#2563eb', '#f59e0b', '#64748b']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // Chart 3: Estação Seca vs Chuvosa (Melhorado com rótulos de acidentes)
+        const ctxEstacao = document.getElementById('chartEstacao').getContext('2d');
+        new Chart(ctxEstacao, {
+            type: 'bar',
+            data: {
+                labels: ['BR-040', 'BR-262', 'BR-381', 'Média Total RMBH'],
+                datasets: [
+                    {
+                        label: 'Média de Acidentes/Mês (Estação Seca)',
+                        data: [55.0, 17.8, 97.6, 170.1],
+                        backgroundColor: '#f59e0b'
+                    },
+                    {
+                        label: 'Média de Acidentes/Mês (Estação Chuvosa)',
+                        data: [47.3, 18.4, 98.8, 165.3],
+                        backgroundColor: '#0284c7'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw + ' acidentes';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Média Mensal de Sinistros / Acidentes'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
