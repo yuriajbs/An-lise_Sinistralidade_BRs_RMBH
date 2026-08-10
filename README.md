@@ -25,7 +25,7 @@ Do lado das Concessionárias de Rodovias:
   1. Onde priorizar obras preventivas de microfresagem, aderência do asfalto e drenagem? 
   2. Como emitir alertas preventivos eficientes em Painéis de Mensagem Variável (PMVs)? 
 
-O objetivo desse projeto é criar um conjunto de gráficos e/ou tabelas que mostre essas métricas da melhor forma possível para o gestor.
+O objetivo desse projeto é criar um conjunto de gráficos e/ou tabelas que mostre essas métricas da melhor forma possível para os gestores de segurança viária.
 
 ## 2. Premissas assumidas para a análise
 
