@@ -66,7 +66,7 @@ Visão Detalhada (Teste de Hipóteses e Plano de Ação):
 
 ## 6. Conclusão
 
-O objetivo de centralizar as métricas operacionais e climáticas para tomada de decisão foi concluído com sucesso. O diagnóstico provou que a gestão de segurança viária na RMBH não deve ser reativa apenas nos períodos de tempestade, mas sim manter uma estratégia contínua focado no controle de velocidade nos meses secos e na fiscalização de motociclistas e tráfego pendular nos corredores urbanos da BR-381. 
+O objetivo de centralizar as métricas operacionais e climáticas para tomada de decisão foi concluído com sucesso. O diagnóstico provou que a gestão de segurança viária na RMBH não deve ser reativa apenas nos períodos de chuva, mas sim manter uma estratégia contínua focado no controle de velocidade nos meses secos e na fiscalização de motociclistas e tráfego pendular nos corredores urbanos da BR-381. 
 
 ## 7. Para o futuro
 
