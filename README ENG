@@ -29,16 +29,12 @@ To structure the diagnosis and action plan, the analysis was divided under three
 
 The goal of this project is to create a set of charts and/or tables that present these metrics in the best possible way for road safety decision-makers.
 
----
-
 ## 2. Assumptions Assumed for Analysis
 
 1. **Analyzed Period:** Consolidated data between 01/01/2024 and 12/31/2025 (24 complete months);
 2. **Geographic Scope:** Metropolitan stretches of federal highways BR-040, BR-262, and BR-381 in RMBH;
 3. **Climate Seasonality:** Classified as **Dry Season** months with accumulated precipitation $\le 100\text{ mm}$ and **Rainy Season** months with precipitation $> 100\text{ mm}$;
 4. **Business Views:** The solution was structured into two complementary views: Overview (Macro Diagnosis) and Detailed View (Hypothesis Testing and Strategic Action Plan).
-
----
 
 ## 3. Solution Strategy
 
@@ -56,15 +52,11 @@ The interactive dashboard was developed with two main screens focused on visual 
 2. **Action Plan for Enforcement Agencies:** Ostensive actions for speed control in dry months, "First Rain" operations, and motorcyclist protection in BR-381 commuter traffic.
 3. **Action Plan for Concessionaires:** Guidelines for infrastructure, asphalt micro-milling, drainage engineering, and operational alerts on VMS.
 
----
-
 ## 4. Top 3 Data Insights
 
 1. **The Dry Season Paradox:** The total monthly volume of accidents does not increase during the rainy period (average of 170.1 accidents/month in the dry season vs. 165.3 accidents/month in the rainy season). Dry asphalt prompts drivers to travel at higher speeds, offsetting and equalizing the overall number of occurrences;
 2. **BR-381 as a Structural and Commuter Bottleneck:** BR-381 concentrates 58.6% of all accidents in the region (2,357 occurrences). The highway is heavily impacted by the daily flow of workers between neighboring cities in the RMBH and a high volume of accidents involving motorcyclists;
 3. **Critical Hazard During "First Rains":** The transition months (October/November) register a proportional spike in severity (+13.3% in severe accidents), as the initial rains wash away oil and dirt accumulated on the pavement during the dry winter, drastically reducing tire-asphalt friction.
-
----
 
 ## 5. Final Deliverable
 
@@ -72,13 +64,9 @@ The interactive dashboard was developed with two main screens focused on visual 
 2. **Autonomous:** Does not require installation of additional servers or software to view;
 3. **How to View Locally:** Simply download the file `dashboard_seguranca_viaria.html` and double-click to run it in any web browser (Chrome, Edge, Firefox, Safari).
 
----
-
 ## 6. Conclusion
 
 The goal of centralizing operational and climate metrics for executive decision-making was successfully accomplished. The diagnosis proved that road safety management in RMBH must not be purely reactive during rainy periods, but rather maintain a continuous strategy focused on speed control during dry months and the enforcement/safety of motorcyclists and commuter traffic along urban corridors of BR-381.
-
----
 
 ## 7. Next Steps & Future Work
 
