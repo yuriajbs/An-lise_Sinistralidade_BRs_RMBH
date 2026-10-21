@@ -1,75 +1,82 @@
-# Diagnóstico Executivo de Segurança Viária — RMBH (2024–2025) 
-## 1. Problema de negócio
+# Executive Road Safety Diagnosis — RMBH (2024–2025)
 
-A gestão da segurança viária na Região Metropolitana de Belo Horizonte (RMBH) enfrenta desafios complexos devido ao elevado fluxo de veículos de carga, tráfego pendular diário entre municípios vizinhos e variações sazonais do clima. As três principais rodovias federais que cortam a região — BR-040, BR-262 e BR-381 — registram um volume expressivo de acidentes com vítimas, gerando custos sociais e operacionais elevados.
-Apesar da abundância de dados coletados pelas autoridades de trânsito e concessionárias, os gestores públicos e equipes operacionais careciam de uma ferramenta executiva centralizada que correlacione a acidentalidade com fatores climáticos (pluviometria) e características de tráfego de cada via.
-Como Analista/Cientista de Dados, o objetivo deste projeto foi centralizar, organizar e estruturar os principais indicadores estratégicos em uma Dashboard Web Executiva, permitindo tomadas de decisão ágeis e direcionadas para prevenção de acidentes e alocação eficiente de recursos.
-Para estruturar o diagnóstico e o plano de ação, a análise foi dividida sob três perspectivas de métricas estratégicas:
+## 1. Business Problem
+
+Road safety management in the Belo Horizonte Metropolitan Region (RMBH) faces complex challenges due to high heavy-freight traffic volumes, daily commuter traffic between neighboring municipalities, and seasonal weather variations. The three main federal highways crossing the region — BR-040, BR-262, and BR-381 — record a significant volume of traffic accidents with casualties, generating high social and operational costs.
+
+Despite the abundance of data collected by traffic authorities and highway concessionaires, public managers and operational teams lacked a centralized executive tool correlating accident rates with weather factors (rainfall) and the specific traffic characteristics of each route.
+
+As a Data Analyst/Data Scientist, the objective of this project was to centralize, organize, and structure the main strategic key performance indicators (KPIs) into an Executive Web Dashboard, enabling agile and targeted decision-making for accident prevention and efficient resource allocation.
+
+To structure the diagnosis and action plan, the analysis was divided under three strategic metric perspectives:
+
+**From the Infrastructure and Climate perspective:**
+
+1. What is the monthly evolution of accidents relative to rainfall precipitation (mm)?
+2. How does the average accident rate behave during the Dry Season vs. the Rainy Season?
+3. Which highway concentrates the highest absolute and relative volume of traffic incidents?
+
+**From the Enforcement and Policing Agencies perspective:**
+
+1. Which stretches and time periods demand reinforced dynamic speed enforcement (dry months)?
+2. How should operations adapt during the weather transition period ("First Rains")?
+3. How can vulnerable groups (motorcyclists) be protected in the daily commuter work traffic?
+
+**From the Highway Concessionaires perspective:**
+
+1. Where should preventive works (micro-milling, asphalt friction/grip restoration, and drainage) be prioritized?
+2. How can effective preventive alerts be issued on Variable Message Signs (VMS)?
+
+The goal of this project is to create a set of charts and/or tables that present these metrics in the best possible way for road safety decision-makers.
 
 
-Do lado da Infraestrutura e Clima: 
- 
-  1. Qual a evolução mensal de acidentes em relação à precipitação pluviométrica (mm)? 
-  2. Como se comporta a taxa média de acidentes na Estação Seca vs. Estação Chuvosa? 
-  3. Qual rodovia concentra o maior volume absoluto e relativo de sinistros? 
+## 2. Assumptions Assumed for Analysis
+
+1. **Analyzed Period:** Consolidated data between 01/01/2024 and 12/31/2025 (24 complete months);
+2. **Geographic Scope:** Metropolitan stretches of federal highways BR-040, BR-262, and BR-381 in RMBH;
+3. **Climate Seasonality:** Classified as **Dry Season** months with accumulated precipitation $\le 100\text{ mm}$ and **Rainy Season** months with precipitation $> 100\text{ mm}$;
+4. **Business Views:** The solution was structured into two complementary views: Overview (Macro Diagnosis) and Detailed View (Hypothesis Testing and Strategic Action Plan).
+
+
+## 3. Solution Strategy
+
+The interactive dashboard was developed with two main screens focused on visual clarity and ease of reading for decision-makers:
+
+### Overview (Incidents and Rainfall Diagnosis):
+
+1. **Executive Impact KPIs:** Total Incidents, Severe Incidents (28.2%), Fatalities (4.9%), and BR-381 Concentration Rate (58.6%);
+2. **Monthly Temporal Evolution:** Comparative chart featuring bars (rainfall in mm) and a line (volume of accidents);
+3. **Monthly Average Accidents (Dry vs. Rainy Season):** Direct visual comparison of the monthly average number of incidents per highway in each weather season.
+
+### Detailed View (Hypothesis Testing and Action Plan):
+
+1. **Hypothesis Testing Matrix (H1 to H5):** Statistical validation or refutation of common beliefs regarding rain, speed, and severity.
+2. **Action Plan for Enforcement Agencies:** Ostensive actions for speed control in dry months, "First Rain" operations, and motorcyclist protection in BR-381 commuter traffic.
+3. **Action Plan for Concessionaires:** Guidelines for infrastructure, asphalt micro-milling, drainage engineering, and operational alerts on VMS.
+
+
+## 4. Top 3 Data Insights
+
+1. **The Dry Season Paradox:** The total monthly volume of accidents does not increase during the rainy period (average of 170.1 accidents/month in the dry season vs. 165.3 accidents/month in the rainy season). Dry asphalt prompts drivers to travel at higher speeds, offsetting and equalizing the overall number of occurrences;
+2. **BR-381 as a Structural and Commuter Bottleneck:** BR-381 concentrates 58.6% of all accidents in the region (2,357 occurrences). The highway is heavily impacted by the daily flow of workers between neighboring cities in the RMBH and a high volume of accidents involving motorcyclists;
+3. **Critical Hazard During "First Rains":** The transition months (October/November) register a proportional spike in severity (+13.3% in severe accidents), as the initial rains wash away oil and dirt accumulated on the pavement during the dry winter, drastically reducing tire-asphalt friction.
+
+
+## 5. Final Deliverable
+
+1. An **Executive and Responsive Web Dashboard**, built in a single HTML/CSS/JavaScript codebase utilizing the Chart.js and FontAwesome libraries;
+2. **Autonomous:** Does not require installation of additional servers or software to view;
+3. **How to View Locally:** Simply download the file `dashboard_seguranca_viaria.html` and double-click to run it in any web browser (Chrome, Edge, Firefox, Safari).
+
+
+## 6. Conclusion
+
+The goal of centralizing operational and climate metrics for executive decision-making was successfully accomplished. The diagnosis proved that road safety management in RMBH must not be purely reactive during rainy periods, but rather maintain a continuous strategy focused on speed control during dry months and the enforcement/safety of motorcyclists and commuter traffic along urban corridors of BR-381.
 
 
 
-Do lado dos Órgãos de Fiscalização e Policiamento: 
+## 7. Next Steps & Future Work
 
-  1. Quais trechos e períodos demandam reforço na fiscalização dinâmicas de velocidade (meses secos)? 
-  2. Como atuar no período de transição climática ("Primeiras Chuvas")? 
-  3. Como proteger grupos vulneráveis (motociclistas) no tráfego pendular diário de trabalho? 
-
-Do lado das Concessionárias de Rodovias: 
-  1. Onde priorizar obras preventivas de microfresagem, aderência do asfalto e drenagem? 
-  2. Como emitir alertas preventivos eficientes em Painéis de Mensagem Variável (PMVs)? 
-
-O objetivo desse projeto é criar um conjunto de gráficos e/ou tabelas que mostre essas métricas da melhor forma possível para os gestores de segurança viária.
-
-## 2. Premissas assumidas para a análise
-
-  1. Período analisado: Dados consolidados entre 01/01/2024 e 31/12/2025 (24 meses completos); 
-  2. Escopo geográfico: Trechos metropolitanos das rodovias federais BR-040, BR-262 e BR-381 na RMBH; 
-  3. Sazonalidade climática: Classificou-se como Estação Seca os meses com precipitação acumulada <= 100 mm e Estação Chuvosa os meses com precipitação > 100 mm; 
-  4. Visões de negócio: A solução foi estruturada em duas visões complementares: Visão Geral (Diagnóstico Macro) e Visão Detalhada (Testes de Hipóteses e Plano de Ação Estratégico.
-
-## 3. Estratégia da solução 
-
-O  painel interativo foi desenvolvido com duas telas principais focadas na clareza visual e facilidade de leitura para tomadores de decisão:
-
-Visão Geral (Diagnóstico de Sinistros e Pluviometria):  	
-
-  1. KPIs de Impacto Executivo: Total de Sinistros, Sinistros Graves (28,2%), Vítimas Fatais (4,9%) e Taxa de Concentração na BR-381 (58,6%);
-  2. Evolução Temporal Mensal: Gráfico comparativo de barras (chuva em mm) e linha (volume de acidentes);
-  3. Média Mensal de Acidentes (Estação Seca vs Chuvosa): Comparativo visual direto da média mensal de sinistros por rodovia em cada estação climática. 
-
-Visão Detalhada (Teste de Hipóteses e Plano de Ação):
-
-  1. Matriz de Teste de Hipóteses (H1 a H5): Validação ou refutação estatística de crenças comuns sobre chuva, velocidade e severidade. 
-  2. Plano de Ação para Órgãos de Fiscalização: Ações ostensivas para controle de velocidade na seca, operação "Primeira Chuva" e proteção ao tráfego pendular de motociclistas na BR-381. 
-  3. Plano de Ação para Concessionárias: Diretrizes de infraestrutura, microfresagem do asfalto, engenharia de drenagem e alertas operacionais em PMVs. 
-
-## 4. Top 3 Insights de dados
-
-  1. O Paradoxo da Estação Seca: O volume total mensal de acidentes não aumenta no período chuvoso (média de 170,1 acidentes/mês na seca vs. 165,3 acidentes/mês na chuva). O asfalto seco leva os motoristas a trafegarem em maiores    velocidades, compensando e igualando o número de ocorrências;
-
-  2. BR-381 como Gargalo Estrutural e Pendular: A BR-381 concentra 58,6% de todos os acidentes da região (2.357 ocorrências). A via é fortemente impactada pelo fluxo diário de trabalhadores entre cidades vizinhas da RMBH e por um    alto volume de acidentes envolvendo motociclistas;
-
-  3. Perigo Crítico nas "Primeiras Chuvas": Os meses de transição (Outubro/Novembro) registram um pico proporcional de gravidade (+13,3% de acidentes graves), pois as primeiras chuvas lavam o óleo e a sujeira acumulados no piso      durante o inverno seco, reduzindo drasticamente a aderência do asfalto. 
-
-## 5. O produto final do projeto
-
-  1. Uma Dashboard Web Executiva e Responsiva, construída em código único HTML/CSS/JavaScript utilizando as bibliotecas Chart.js e FontAwesome.
-  2. Autônoma: Não requer instalação de servidores ou softwares adicionais para visualização;
-  3. Como visualizar localmente: Basta realizar o download do arquivo dashboard_seguranca_viaria.html e executá-lo com um duplo clique em qualquer navegador web (Chrome, Edge, Firefox, Safari). 
-
-## 6. Conclusão
-
-O objetivo de centralizar as métricas operacionais e climáticas para tomada de decisão foi concluído com sucesso. O diagnóstico provou que a gestão de segurança viária na RMBH não deve ser reativa apenas nos períodos de chuva, mas sim manter uma estratégia contínua focado no controle de velocidade nos meses secos e na fiscalização de motociclistas e tráfego pendular nos corredores urbanos da BR-381. 
-
-## 7. Para o futuro
-
-  1. Granularidade Diária/Horária: Incorporar dados no nível diário para analisar picos específicos durante tempestades pontuais de verão;
-  2. Georreferenciamento: Integrar mapas interativos (ex: Leaflet.js / Folium) para mapeamento exato dos blackspots (quilômetros mais críticos);
-  3. Análise Preditiva: Desenvolver modelos de Machine Learning para prever a probabilidade de acidentes graves com base na previsão meteorológica diária. 
+1. **Daily/Hourly Granularity:** Incorporate daily-level data to analyze specific peak spikes during isolated summer rainstorms;
+2. **Georeferencing:** Integrate interactive maps (e.g., Leaflet.js / Folium) for precise mapping of blackspots (most critical highway kilometers);
+3. **Predictive Analytics:** Develop Machine Learning models to predict the probability of severe accidents based on daily weather forecasts.
