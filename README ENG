@@ -1,0 +1,87 @@
+# Executive Road Safety Diagnosis — RMBH (2024–2025)
+
+## 1. Business Problem
+
+Road safety management in the Belo Horizonte Metropolitan Region (RMBH) faces complex challenges due to high heavy-freight traffic volumes, daily commuter traffic between neighboring municipalities, and seasonal weather variations. The three main federal highways crossing the region — BR-040, BR-262, and BR-381 — record a significant volume of traffic accidents with casualties, generating high social and operational costs.
+
+Despite the abundance of data collected by traffic authorities and highway concessionaires, public managers and operational teams lacked a centralized executive tool correlating accident rates with weather factors (rainfall) and the specific traffic characteristics of each route.
+
+As a Data Analyst/Data Scientist, the objective of this project was to centralize, organize, and structure the main strategic key performance indicators (KPIs) into an Executive Web Dashboard, enabling agile and targeted decision-making for accident prevention and efficient resource allocation.
+
+To structure the diagnosis and action plan, the analysis was divided under three strategic metric perspectives:
+
+**From the Infrastructure and Climate perspective:**
+
+1. What is the monthly evolution of accidents relative to rainfall precipitation (mm)?
+2. How does the average accident rate behave during the Dry Season vs. the Rainy Season?
+3. Which highway concentrates the highest absolute and relative volume of traffic incidents?
+
+**From the Enforcement and Policing Agencies perspective:**
+
+1. Which stretches and time periods demand reinforced dynamic speed enforcement (dry months)?
+2. How should operations adapt during the weather transition period ("First Rains")?
+3. How can vulnerable groups (motorcyclists) be protected in the daily commuter work traffic?
+
+**From the Highway Concessionaires perspective:**
+
+1. Where should preventive works (micro-milling, asphalt friction/grip restoration, and drainage) be prioritized?
+2. How can effective preventive alerts be issued on Variable Message Signs (VMS)?
+
+The goal of this project is to create a set of charts and/or tables that present these metrics in the best possible way for road safety decision-makers.
+
+---
+
+## 2. Assumptions Assumed for Analysis
+
+1. **Analyzed Period:** Consolidated data between 01/01/2024 and 12/31/2025 (24 complete months);
+2. **Geographic Scope:** Metropolitan stretches of federal highways BR-040, BR-262, and BR-381 in RMBH;
+3. **Climate Seasonality:** Classified as **Dry Season** months with accumulated precipitation $\le 100\text{ mm}$ and **Rainy Season** months with precipitation $> 100\text{ mm}$;
+4. **Business Views:** The solution was structured into two complementary views: Overview (Macro Diagnosis) and Detailed View (Hypothesis Testing and Strategic Action Plan).
+
+---
+
+## 3. Solution Strategy
+
+The interactive dashboard was developed with two main screens focused on visual clarity and ease of reading for decision-makers:
+
+### Overview (Incidents and Rainfall Diagnosis):
+
+1. **Executive Impact KPIs:** Total Incidents, Severe Incidents (28.2%), Fatalities (4.9%), and BR-381 Concentration Rate (58.6%);
+2. **Monthly Temporal Evolution:** Comparative chart featuring bars (rainfall in mm) and a line (volume of accidents);
+3. **Monthly Average Accidents (Dry vs. Rainy Season):** Direct visual comparison of the monthly average number of incidents per highway in each weather season.
+
+### Detailed View (Hypothesis Testing and Action Plan):
+
+1. **Hypothesis Testing Matrix (H1 to H5):** Statistical validation or refutation of common beliefs regarding rain, speed, and severity.
+2. **Action Plan for Enforcement Agencies:** Ostensive actions for speed control in dry months, "First Rain" operations, and motorcyclist protection in BR-381 commuter traffic.
+3. **Action Plan for Concessionaires:** Guidelines for infrastructure, asphalt micro-milling, drainage engineering, and operational alerts on VMS.
+
+---
+
+## 4. Top 3 Data Insights
+
+1. **The Dry Season Paradox:** The total monthly volume of accidents does not increase during the rainy period (average of 170.1 accidents/month in the dry season vs. 165.3 accidents/month in the rainy season). Dry asphalt prompts drivers to travel at higher speeds, offsetting and equalizing the overall number of occurrences;
+2. **BR-381 as a Structural and Commuter Bottleneck:** BR-381 concentrates 58.6% of all accidents in the region (2,357 occurrences). The highway is heavily impacted by the daily flow of workers between neighboring cities in the RMBH and a high volume of accidents involving motorcyclists;
+3. **Critical Hazard During "First Rains":** The transition months (October/November) register a proportional spike in severity (+13.3% in severe accidents), as the initial rains wash away oil and dirt accumulated on the pavement during the dry winter, drastically reducing tire-asphalt friction.
+
+---
+
+## 5. Final Deliverable
+
+1. An **Executive and Responsive Web Dashboard**, built in a single HTML/CSS/JavaScript codebase utilizing the Chart.js and FontAwesome libraries;
+2. **Autonomous:** Does not require installation of additional servers or software to view;
+3. **How to View Locally:** Simply download the file `dashboard_seguranca_viaria.html` and double-click to run it in any web browser (Chrome, Edge, Firefox, Safari).
+
+---
+
+## 6. Conclusion
+
+The goal of centralizing operational and climate metrics for executive decision-making was successfully accomplished. The diagnosis proved that road safety management in RMBH must not be purely reactive during rainy periods, but rather maintain a continuous strategy focused on speed control during dry months and the enforcement/safety of motorcyclists and commuter traffic along urban corridors of BR-381.
+
+---
+
+## 7. Next Steps & Future Work
+
+1. **Daily/Hourly Granularity:** Incorporate daily-level data to analyze specific peak spikes during isolated summer rainstorms;
+2. **Georeferencing:** Integrate interactive maps (e.g., Leaflet.js / Folium) for precise mapping of blackspots (most critical highway kilometers);
+3. **Predictive Analytics:** Develop Machine Learning models to predict the probability of severe accidents based on daily weather forecasts.
